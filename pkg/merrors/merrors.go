@@ -22,39 +22,6 @@ type MeltError struct {
 	frame xerrors.Frame
 }
 
-func (e *MeltError) Error() string {
-	return fmt.Sprintf("error: code = %v, message = %s", e.ErrorPattern.ErrorCode, e.errorMessage)
-}
-
-func (e *MeltError) Unwrap() error {
-	if e == nil {
-		return nil
-	}
-	return e.err
-}
-
-func (e *MeltError) Format(s fmt.State, v rune) {
-	xerrors.FormatError(e, s, v)
-}
-
-func (e *MeltError) FormatError(p xerrors.Printer) error {
-	p.Print(e.Message())
-	e.frame.Format(p)
-	return e.Unwrap()
-}
-
-func (e *MeltError) Message() string {
-	if e == nil {
-		return ""
-	}
-	return e.errorMessage
-}
-
-func (e *stackError) FormatError(p xerrors.Printer) error {
-	e.frame.Format(p)
-	return e.Unwrap()
-}
-
 // ErrorPattern エラーパターン管理
 type ErrorPattern struct {
 	// エラーコード
@@ -161,4 +128,37 @@ func newError(cause error, errorPattern ErrorPattern, errorMessage string) error
 		err:          cause,
 		frame:        xerrors.Caller(2),
 	}
+}
+
+func (e *MeltError) Error() string {
+	return fmt.Sprintf("error: code = %v, message = %s", e.ErrorPattern.ErrorCode, e.errorMessage)
+}
+
+func (e *MeltError) Unwrap() error {
+	if e == nil {
+		return nil
+	}
+	return e.err
+}
+
+func (e *MeltError) Format(s fmt.State, v rune) {
+	xerrors.FormatError(e, s, v)
+}
+
+func (e *MeltError) FormatError(p xerrors.Printer) error {
+	p.Print(e.Message())
+	e.frame.Format(p)
+	return e.Unwrap()
+}
+
+func (e *MeltError) Message() string {
+	if e == nil {
+		return ""
+	}
+	return e.errorMessage
+}
+
+func (e *stackError) FormatError(p xerrors.Printer) error {
+	e.frame.Format(p)
+	return e.Unwrap()
 }
