@@ -39,7 +39,7 @@
         txManager database.TxManager
     }
     
-    func (i *interactor) Hoge(ctx context.Context) {
+    func (i *interactor) Hoge(ctx context.Context) error {
         // トランザクション開始するよ！
         if err := i.txManager.Transaction(ctx, func(ctx context.Context, tx database.Tx) error {
             user := &entity.User{ID: "hoge", Name: "fuga"}
@@ -50,7 +50,7 @@
   
             return nil
         }; err != nil {
-            return nil, merrors.Stack(err) 
+            return merrors.Stack(err) 
         }
         
         return nil
