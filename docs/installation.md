@@ -18,7 +18,7 @@ $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/
 $ brew install anyenv
 $ anyenv install --init
 ```
-- path通す
+- path通す(.zshrcとかに記述)
 ```.zshrc
 export PATH="$HOME/.anyenv/bin:$PATH"
 eval "$(anyenv init -)"
@@ -37,7 +37,7 @@ $ goenv versions # 使えるようになったバージョン確認
 $ goenv local 1.18.0 # 特定ディレクトリで使用するバージョン指定
 $ go version
 ```
-- path通す
+- path通す(.zshrcとかに記述)
 ```.zshrc
 export GOENV_ROOT="$HOME/.goenv"
 export PATH="$GOENV_ROOT/bin:$PATH"

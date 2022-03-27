@@ -1,9 +1,10 @@
 エラーハンドリング
 ====
 
-xerrorsを拡張したmerrors(melt-errorsの略)を用いる
+[xerrors](https://pkg.go.dev/golang.org/x/xerrors)を拡張したmerrors(melt-errorsの略)を用いる
 
-## New/Newf
+
+### New/Newf
 
 独自エラー(melt-error)を生成するメソッド
 
@@ -19,7 +20,7 @@ func F1() error {
 }
 ```
 
-## Stack
+### Stack
 エラーログに経路を記録するためにスタックフレームを積むメソッド
 エラーを伝搬する時のみ使用する
 
@@ -39,7 +40,7 @@ func F2() error {
 }
 ```
 
-## Wrap/Wrapf
+### Wrap/Wrapf
 エラーを独自エラーにラップするメソッド
 外部ライブラリからのエラーを変換するために使用する
 
@@ -61,3 +62,9 @@ func F3() (uuid.UUID, error) {
     return id, nil
 }
 ```
+
+### 備考
+
+xerrorsはgo1.13でメンテが終了しているが、フレームを取るだけなので引き続き使用している。
+
+
