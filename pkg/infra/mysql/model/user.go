@@ -1,7 +1,7 @@
-package transaction
+package model
 
 import (
-	entity "github.com/karamaru-alpha/melt/pkg/domain/entity/transaction"
+	"github.com/karamaru-alpha/melt/pkg/domain/entity"
 )
 
 type User struct {

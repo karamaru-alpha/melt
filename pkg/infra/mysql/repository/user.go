@@ -1,14 +1,14 @@
-package transaction
+package repository
 
 import (
 	"context"
 	"database/sql"
 
 	"github.com/karamaru-alpha/melt/pkg/domain/database"
-	"github.com/karamaru-alpha/melt/pkg/domain/entity/transaction"
-	repo "github.com/karamaru-alpha/melt/pkg/domain/repository/transaction"
+	domain "github.com/karamaru-alpha/melt/pkg/domain/entity"
+	repo "github.com/karamaru-alpha/melt/pkg/domain/repository"
 	"github.com/karamaru-alpha/melt/pkg/infra/mysql"
-	model "github.com/karamaru-alpha/melt/pkg/infra/mysql/model/transaction"
+	"github.com/karamaru-alpha/melt/pkg/infra/mysql/model"
 	"github.com/karamaru-alpha/melt/pkg/merrors"
 )
 
@@ -22,7 +22,7 @@ func NewUserRepository(db *sql.DB) repo.UserRepository {
 	}
 }
 
-func (r *userRepository) Insert(ctx context.Context, _tx database.Tx, entity *transaction.User) error {
+func (r *userRepository) Insert(ctx context.Context, _tx database.Tx, entity *domain.User) error {
 	tx, err := mysql.ExtractTx(_tx)
 	if err != nil {
 		return merrors.Stack(err)
