@@ -41,7 +41,7 @@
     
     func (i *interactor) Hoge(ctx context.Context) {
         // トランザクション開始するよ！
-        if err := i.txManager.Transaction(ctx, func(ctx context.Context, userTx database.UserTx) error {
+        if err := i.txManager.Transaction(ctx, func(ctx context.Context, tx database.Tx) error {
             user := &entity.User{ID: "hoge", Name: "fuga"}
             // txを使ってトランザクション内でクエリ実行するよ！
             if err := userRepository.Insert(ctx, tx, user); err != nil {
