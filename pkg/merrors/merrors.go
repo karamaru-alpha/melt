@@ -76,11 +76,11 @@ var (
 //}
 
 // Newf Meltエラーを生成する
-//func Newf(errorPattern ErrorPattern, format string, args ...interface{}) error {
-//	return newError(nil, errorPattern, fmt.Sprintf(format, args...))
-//}
+func Newf(errorPattern ErrorPattern, format string, args ...interface{}) error {
+	return newError(nil, errorPattern, fmt.Sprintf(format, args...))
+}
 
-// Wrap エラーをMeltエラーでラップする
+// Wrap 外部のエラーをMeltエラーでラップする
 func Wrap(cause error, errorPattern ErrorPattern) error {
 	var message string
 	var meltError *MeltError
@@ -92,7 +92,7 @@ func Wrap(cause error, errorPattern ErrorPattern) error {
 	return newError(cause, errorPattern, message)
 }
 
-// Wrapf エラーをMeltエラーでラップする
+// Wrapf 外部のエラーをMeltエラーでラップする
 func Wrapf(cause error, errorPattern ErrorPattern, format string, a ...interface{}) error {
 	return newError(cause, errorPattern, fmt.Sprintf(format, a...))
 }
