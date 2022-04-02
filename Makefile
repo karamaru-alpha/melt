@@ -1,3 +1,10 @@
+include .env
+export
+
+.PHONY: run
+run:
+	go run cmd/api/main.go
+
 .PHONY: go-generate
 go-generate:
 	go generate ./pkg/...
