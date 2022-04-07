@@ -17,8 +17,7 @@ DIには [wire](https://github.com/google/wire) か [dig](https://github.com/ube
 - [例外](#例外)
 
 ## Cmd
-最上位レイヤー。すべてのレイヤーに依存する。
-各レイヤーのDIを行いHTTPサーバーであればミドルウェアの設定やルーティングを行う。
+最上位レイヤー。サーバーの起動などを行う
 
 ## Handler
 inputを整形してUseCaseを呼び出し、結果をoutputとして整形して返す。
