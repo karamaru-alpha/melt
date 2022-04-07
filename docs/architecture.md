@@ -9,15 +9,12 @@ DIには [wire](https://github.com/google/wire) か [dig](https://github.com/ube
 
 各層の依存は以下のようになっている。
 
-- [Cmd](#Cmd)
 - [Handler](#Handler)
 - [UseCase](#UseCase)
 - [Domain](#Domain)
 - [Infra](#Infra)
 - [例外](#例外)
 
-## Cmd
-最上位レイヤー。サーバーの起動などを行う
 
 ## Handler
 inputを整形してUseCaseを呼び出し、結果をoutputとして整形して返す。
