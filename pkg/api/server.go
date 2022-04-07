@@ -9,7 +9,10 @@ import (
 	"syscall"
 
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 
+	"github.com/karamaru-alpha/melt/pkg/api/handler/user"
+	pb "github.com/karamaru-alpha/melt/pkg/domain/proto/api"
 	"github.com/karamaru-alpha/melt/pkg/logging/app"
 )
 
@@ -33,6 +36,8 @@ func Serve(c *Config) *Server {
 
 func NewServer(c *Config) *Server {
 	server := grpc.NewServer()
+	reflection.Register(server)
+	pb.RegisterTestServer(server, user.New())
 	return &Server{
 		config: c,
 		server: server,

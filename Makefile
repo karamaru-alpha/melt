@@ -13,3 +13,7 @@ go-generate:
 .PHONY: go-generate-git-diff
 go-generate-git-diff:
 	sh ./scripts/go-generate-git-diff.sh
+
+.PHONY: protoc
+protoc:
+	sh ./scripts/protoc.sh

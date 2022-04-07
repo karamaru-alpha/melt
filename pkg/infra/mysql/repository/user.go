@@ -32,3 +32,17 @@ func (r *userRepository) Insert(ctx context.Context, _tx database.Tx, entity *do
 	}
 	return nil
 }
+
+func (r *userRepository) SelectByName(ctx context.Context, _tx database.Tx, name string) ([]*domain.User, error) {
+	// TODO
+	//tx, err := mysql.ExtractTx(_tx)
+	//if err != nil {
+	//	return nil, merrors.Stack(err)
+	//}
+	//
+	//rows, err := tx.QueryContext(ctx, `SELECT * FROM user WHERE name = ?`, name)
+	//if err != nil {
+	//	return nil, merrors.Wrap(err, merrors.Internal)
+	//}
+	return nil, nil
+}

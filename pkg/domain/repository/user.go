@@ -11,4 +11,5 @@ import (
 
 type UserRepository interface {
 	Insert(ctx context.Context, tx database.Tx, entity *entity.User) error
+	SelectByName(ctx context.Context, tx database.Tx, name string) ([]*entity.User, error)
 }
