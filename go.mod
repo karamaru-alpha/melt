@@ -4,6 +4,7 @@ go 1.18
 
 require (
 	github.com/golang/mock v1.6.0
+	github.com/google/wire v0.5.0
 	github.com/oklog/ulid/v2 v2.0.2
 	github.com/stretchr/testify v1.7.0
 	go.uber.org/zap v1.21.0

@@ -3,6 +3,7 @@ package mysql
 import (
 	"database/sql"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/karamaru-alpha/melt/pkg/merrors"
@@ -13,21 +14,22 @@ const (
 	defaultMaxOpenConns = 100
 )
 
-type Config struct {
-	Addr     string
-	User     string
-	Password string
-	DB       string
-}
-
-func New(c *Config) (*sql.DB, error) {
-	dataSourceName := fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=true&loc=Local", c.User, c.Password, c.Addr, c.DB)
+func New() *sql.DB {
+	dataSourceName := fmt.Sprintf(
+		"%s:%s@tcp(%s)/%s?parseTime=true&loc=Local",
+		os.Getenv("MYSQL_USER"),
+		os.Getenv("MYSQL_PASSWORD"),
+		os.Getenv("MYSQL_ADDR"),
+		os.Getenv("MYSQL_DB"),
+	)
+	
 	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
-		return nil, merrors.Wrapf(err, merrors.Internal, "Unable to open mysql connection. data source: %s", dataSourceName)
+		panic(merrors.Wrapf(err, merrors.Internal, "Unable to open mysql connection. data source: %s", dataSourceName))
 	}
 	db.SetMaxIdleConns(defaultMaxIdleConns)
 	db.SetMaxOpenConns(defaultMaxOpenConns)
 	db.SetConnMaxLifetime(defaultMaxOpenConns * time.Second)
-	return db, nil
+
+	return db
 }

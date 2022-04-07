@@ -3,7 +3,7 @@
 
 レイヤードアーキテクチャがベース。**DDDではない**。
 
-DIには [wire](https://github.com/google/wire) か [dig](https://github.com/uber-go/dig) を用いる(TODO)
+DIには [wire](https://github.com/google/wire) か [dig](https://github.com/uber-go/dig) を用いる
 
 
 
