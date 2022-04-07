@@ -6,7 +6,7 @@ meltでのコード例: [pkg/domain/service/user/service_test.go](https://github
 
 ## 方針
 
-mapを用いたテーブルドリブンテストを用いる
+mapを用いたテーブルドリブンテストを用いる。（テストケースが1つの場合などは例外）
 - [Golangのテストはテーブルドリブンテストで！](https://qiita.com/takehanKosuke/items/cbfc88c4b7956adede79)
 - [Goのテーブル駆動テストをわかりやすく書きたい](https://zenn.dev/kimuson13/articles/go_table_driven_test)
 
