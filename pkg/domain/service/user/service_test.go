@@ -11,7 +11,7 @@ import (
 	"github.com/karamaru-alpha/melt/pkg/domain/entity"
 	"github.com/karamaru-alpha/melt/pkg/domain/repository/mock_repository"
 	"github.com/karamaru-alpha/melt/pkg/merrors"
-	testutil "github.com/karamaru-alpha/melt/pkg/test"
+	testutil "github.com/karamaru-alpha/melt/pkg/test/util"
 	"github.com/karamaru-alpha/melt/pkg/util/mock_util"
 )
 
