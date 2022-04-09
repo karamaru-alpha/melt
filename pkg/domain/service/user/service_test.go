@@ -12,12 +12,10 @@ import (
 	"github.com/karamaru-alpha/melt/pkg/domain/repository/mock_repository"
 	"github.com/karamaru-alpha/melt/pkg/merrors"
 	testutil "github.com/karamaru-alpha/melt/pkg/test/util"
-	"github.com/karamaru-alpha/melt/pkg/util/mock_util"
 )
 
 type mocks struct {
 	userRepository *mock_repository.MockUserRepository
-	ulidGenerator  *mock_util.MockULIDGenerator
 	tx             *mock_database.MockTx
 }
 
@@ -25,11 +23,10 @@ func newWithMocks(t *testing.T) (context.Context, *service, *mocks) {
 	ctx := context.Background()
 	ctrl := gomock.NewController(t)
 	userRepository := mock_repository.NewMockUserRepository(ctrl)
-	ulidGenerator := mock_util.NewMockULIDGenerator(ctrl)
 	tx := mock_database.NewMockTx(ctrl)
 	return ctx,
-		New(userRepository, ulidGenerator).(*service),
-		&mocks{userRepository, ulidGenerator, tx}
+		New(userRepository).(*service),
+		&mocks{userRepository, tx}
 }
 
 func Test_Service(t *testing.T) {
@@ -43,12 +40,6 @@ func Test_Service(t *testing.T) {
 			mock: func(ctx context.Context, m *mocks) {
 				name := strings.Repeat("a", 10)
 				m.userRepository.EXPECT().SelectByName(ctx, m.tx, name).Return(nil, nil).Times(1)
-				m.ulidGenerator.EXPECT().Generate().Return("id", nil).Times(1)
-				m.userRepository.EXPECT().Insert(ctx, m.tx, &entity.User{
-					ID:   "id",
-					Name: name,
-				}).Return(nil).Times(1)
-
 			},
 		},
 		"異常系: 既に存在するname": {
@@ -74,7 +65,7 @@ func Test_Service(t *testing.T) {
 				tt.mock(ctx, m)
 			}
 
-			err := s.Create(ctx, m.tx, tt.name)
+			err := s.ValidateUserName(ctx, m.tx, tt.name)
 			testutil.EqualMeltError(t, tt.err, err)
 		})
 	}

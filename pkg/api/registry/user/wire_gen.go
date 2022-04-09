@@ -21,10 +21,10 @@ import (
 func DI() proto.UserServer {
 	db := mysql.New()
 	userRepository := repository.NewUserRepository(db)
+	service := user.New(userRepository)
 	ulidGenerator := util.NewUILDGenerator()
-	service := user.New(userRepository, ulidGenerator)
 	txManager := mysql.NewDBTxManager(db)
-	interactor := user2.New(service, txManager)
+	interactor := user2.New(service, userRepository, ulidGenerator, txManager)
 	userServer := user3.New(interactor)
 	return userServer
 }

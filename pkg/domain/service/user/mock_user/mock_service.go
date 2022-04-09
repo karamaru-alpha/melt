@@ -36,16 +36,16 @@ func (m *MockService) EXPECT() *MockServiceMockRecorder {
 	return m.recorder
 }
 
-// Create mocks base method.
-func (m *MockService) Create(ctx context.Context, tx database.Tx, name string) error {
+// ValidateUserName mocks base method.
+func (m *MockService) ValidateUserName(ctx context.Context, tx database.Tx, name string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Create", ctx, tx, name)
+	ret := m.ctrl.Call(m, "ValidateUserName", ctx, tx, name)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
-// Create indicates an expected call of Create.
-func (mr *MockServiceMockRecorder) Create(ctx, tx, name interface{}) *gomock.Call {
+// ValidateUserName indicates an expected call of ValidateUserName.
+func (mr *MockServiceMockRecorder) ValidateUserName(ctx, tx, name interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Create", reflect.TypeOf((*MockService)(nil).Create), ctx, tx, name)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ValidateUserName", reflect.TypeOf((*MockService)(nil).ValidateUserName), ctx, tx, name)
 }
