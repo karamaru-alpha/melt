@@ -5,6 +5,10 @@ export
 run:
 	go run cmd/api/main.go
 
+.PHONY: test
+test:
+	go test ./pkg/... ./cmd/...
+
 .PHONY: go-generate
 go-generate:
 	go generate ./pkg/...
