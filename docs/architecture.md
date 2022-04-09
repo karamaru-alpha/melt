@@ -28,8 +28,7 @@ req/resが主体なので1つに統合して問題ないと判断した。
 streamingのようなPresenterをUseCase側から呼び出したくなったときに考える。
 
 ## UseCase
-- アプリケーション固有のビジネスルール
-- 複数のDomainServiceを呼び出しビジネスルールを作り出す
+- 複数のRepository/DomainServiceを呼び出しビジネスルールを作り出す
 - **エンドポイントと1対1対応**
 - Domainレイヤーに依存する
 
@@ -50,7 +49,7 @@ infraレイヤーで使う技術に依存してはならない。(sql.Dbやspann
 #### Service
 - UseCaseから受け取った値に応じてRepositoryを呼び出す
 - 1まとまりの処理はまとめてここに記述し各usecaseから呼び出す
-- とても短く単純で、再利用性がない場合はusecaseでロジックを簡潔させても良い
+- とても短く単純で、再利用性がない場合はusecaseでロジックを完結させても良い
 - **DDDのdomainServiceではない**
 
 ## Infra
