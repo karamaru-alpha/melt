@@ -1,7 +1,7 @@
 テスト
 ====
 
-**DI**によって注入された処理を**モック**して、**テーブル駆動**でテストする
+**DI**によって注入された処理を**モック**して、**テーブル駆動**でテストする。
 
 ### DIとは
 
@@ -13,7 +13,6 @@ cf. [DIの仕組みをGoで実装して理解する](https://qiita.com/yoshinori
 ### モックとは
 
 - テストなどの目的で、任意の処理を別の処理に差し替える方法 （本番:mysqlに問い合わせ, テスト:オンメモリのダミーデータなど）
-
 
 #### gomockとは
 - [gomock](https://github.com/golang/mock) はinteraface定義からモックを作成するツール
@@ -34,6 +33,10 @@ cf. [gomockを完全に理解する](https://zenn.dev/sanpo_shiho/articles/01da6
 cf. [Golangのテストはテーブルドリブンテストで！](https://qiita.com/takehanKosuke/items/cbfc88c4b7956adede79)
  / [Goのテーブル駆動テストをわかりやすく書きたい](https://zenn.dev/kimuson13/articles/go_table_driven_test)
 
+### テスト項目について
+
+- なるべく閾値をテストケースにする（e.g. 文字列の長さが10文字以下である場合、正常系は10文字、異常系は11文字で）
+- 外部サービスからのエラーなど、伝搬するエラーは検証しない。(merrors.New(f)のみ検証する)
 
 ### 参考コード
 
