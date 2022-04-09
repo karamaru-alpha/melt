@@ -3,12 +3,6 @@
 
 レイヤードアーキテクチャがベース。**DDDではない**。
 
-DIには [wire](https://github.com/google/wire) か [dig](https://github.com/uber-go/dig) を用いる
-
-
-
-各層の依存は以下のようになっている。
-
 - [Handler](#Handler)
 - [UseCase](#UseCase)
 - [Domain](#Domain)
