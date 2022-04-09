@@ -1,14 +1,17 @@
 include .env
 export
 
+## API起動
 .PHONY: run
 run:
 	go run cmd/api/main.go
 
+## 全てのテストを走らせる
 .PHONY: test
 test:
 	go test ./pkg/... ./cmd/...
 
+## `go generate`する
 .PHONY: go-generate
 go-generate:
 	go generate ./pkg/...
@@ -18,6 +21,14 @@ go-generate:
 go-generate-git-diff:
 	sh ./scripts/go-generate-git-diff.sh
 
+## proto定義ファイルから自動生成する
 .PHONY: protoc
 protoc:
 	sh ./scripts/protoc.sh
+
+## localで走らせるパッケージ群のinstall
+.PHONY: local-install
+local-install:
+	go install github.com/golang/mock/mockgen@v1.6.0
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.45.2
+	go install github.com/google/wire/cmd/wire@v0.5.0

@@ -1,7 +1,7 @@
 エラーハンドリング
 ====
 
-[xerrors](https://pkg.go.dev/golang.org/x/xerrors)を拡張したmerrors(melt-errorsの略)を用いる
+[xerrors](https://pkg.go.dev/golang.org/x/xerrors) を拡張したmerrors(melt-errorsの略)を用いる
 
 
 ### New/Newf
@@ -66,5 +66,3 @@ func F3() (uuid.UUID, error) {
 ### 備考
 
 xerrorsはgo1.13でメンテが終了しているが、フレームを取るだけなので引き続き使用している。
-
-

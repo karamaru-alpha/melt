@@ -78,5 +78,4 @@ func Test_Service(t *testing.T) {
 			testutil.EqualMeltError(t, tt.err, err)
 		})
 	}
-
 }
