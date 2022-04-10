@@ -4,7 +4,11 @@ export
 ## API起動
 .PHONY: run
 run:
-	go run cmd/api/main.go
+	docker-compose up
+
+.PHONY: rerun
+rerun:
+	docker-compose up --build
 
 ## 全てのテストを走らせる
 .PHONY: test
