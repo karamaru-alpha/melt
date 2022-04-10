@@ -14,7 +14,7 @@ cf. [DIの仕組みをGoで実装して理解する](https://qiita.com/yoshinori
 
 - テストなどの目的で、任意の処理を別の処理に差し替える方法 （本番:mysqlに問い合わせ, テスト:オンメモリのダミーデータなど）
 
-#### gomockとは
+#### gomock
 - [gomock](https://github.com/golang/mock) はinteraface定義からモックを作成するツール
 - interafaceのあるfileに以下の記述をし、`go generate`すればモックができる
 ```go
