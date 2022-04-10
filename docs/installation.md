@@ -51,6 +51,12 @@ export PATH="$GOENV_ROOT/bin:$PATH"
 eval "$(goenv init -)"
 ```
 
+
+### Goに慣れるために
+
+- [Tour of Go](https://go-tour-jp.appspot.com/welcome/1): チュートリアルサイト
+- [Go PlayGround](https://go.dev/play/): オンラインでGoが動かせるサイト
+
 ## 周辺パッケージのインストール
 
 ```bash
