@@ -4,6 +4,7 @@ services:
     container_name: go
     build: .
     environment:
+      - ENV
       - PORT
       - MYSQL_USER
       - MYSQL_PASSWORD

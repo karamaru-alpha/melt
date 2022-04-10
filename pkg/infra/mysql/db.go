@@ -29,6 +29,13 @@ func New() *sql.DB {
 	if err != nil {
 		panic(merrors.Wrapf(err, merrors.Internal, "Unable to open mysql connection. data source: %s", dataSourceName))
 	}
+	for {
+		err := db.Ping()
+		if err == nil {
+			break
+		}
+		time.Sleep(time.Second * 1)
+	}
 	db.SetMaxIdleConns(defaultMaxIdleConns)
 	db.SetMaxOpenConns(defaultMaxOpenConns)
 	db.SetConnMaxLifetime(defaultMaxOpenConns * time.Second)

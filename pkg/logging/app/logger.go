@@ -48,6 +48,15 @@ func GetLogger() Logger {
 	return appLogger
 }
 
+func SetLogger(isLocal bool) error {
+	l, err := New(isLocal)
+	if err != nil {
+		return err
+	}
+	appLogger = l
+	return nil
+}
+
 func (l *logger) Debug(_ context.Context, msg string, fields ...zap.Field) {
 	l.Logger.Debug(msg, fields...)
 }
