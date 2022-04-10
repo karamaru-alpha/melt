@@ -40,8 +40,6 @@ cf. [Golangのテストはテーブルドリブンテストで！](https://qiita
 
 ### 参考コード
 
-cf. [pkg/domain/service/user/service_test.go](https://github.com/karamaru-alpha/melt/blob/main/pkg/domain/service/user/service_test.go)
-
 ```go
 package user
 
