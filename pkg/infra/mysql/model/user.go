@@ -1,23 +1,26 @@
 package model
 
 import (
-	"github.com/karamaru-alpha/melt/pkg/domain/entity"
+	domain "github.com/karamaru-alpha/melt/pkg/domain/entity"
 )
 
 type User struct {
-	ID   string `db:"id"`
-	Name string `db:"name"`
+	ID   string `gorm:"primary_key"`
+	Name string
 }
 
-func NewUser(user *entity.User) *User {
+func NewUser(entity *domain.User) *User {
+	if entity == nil {
+		return nil
+	}
 	return &User{
-		ID:   user.ID,
-		Name: user.Name,
+		ID:   entity.ID,
+		Name: entity.Name,
 	}
 }
 
-func (u *User) ToEntity() *entity.User {
-	return &entity.User{
+func (u *User) ToEntity() *domain.User {
+	return &domain.User{
 		ID:   u.ID,
 		Name: u.Name,
 	}

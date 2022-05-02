@@ -3,6 +3,7 @@ package user
 import (
 	"context"
 
+	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"github.com/karamaru-alpha/melt/pkg/api/usecase/user"
@@ -24,5 +25,5 @@ func (h *handler) Create(ctx context.Context, req *pb.UserCreateRequest) (*empty
 	if err := h.userInteractor.Create(ctx, req.GetName()); err != nil {
 		return nil, merrors.Stack(err)
 	}
-	return nil, nil
+	return &empty.Empty{}, nil
 }

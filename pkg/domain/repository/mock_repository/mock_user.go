@@ -52,16 +52,16 @@ func (mr *MockUserRepositoryMockRecorder) Insert(ctx, tx, entity interface{}) *g
 }
 
 // SelectByName mocks base method.
-func (m *MockUserRepository) SelectByName(ctx context.Context, tx database.Tx, name string) ([]*entity.User, error) {
+func (m *MockUserRepository) SelectByName(ctx context.Context, name string) ([]*entity.User, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SelectByName", ctx, tx, name)
+	ret := m.ctrl.Call(m, "SelectByName", ctx, name)
 	ret0, _ := ret[0].([]*entity.User)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // SelectByName indicates an expected call of SelectByName.
-func (mr *MockUserRepositoryMockRecorder) SelectByName(ctx, tx, name interface{}) *gomock.Call {
+func (mr *MockUserRepositoryMockRecorder) SelectByName(ctx, name interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SelectByName", reflect.TypeOf((*MockUserRepository)(nil).SelectByName), ctx, tx, name)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SelectByName", reflect.TypeOf((*MockUserRepository)(nil).SelectByName), ctx, name)
 }

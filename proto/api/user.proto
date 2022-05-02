@@ -4,12 +4,12 @@ package api;
 option go_package = "github.com/karamaru-alpha/melt/pkg/domain/proto";
 
 import "google/protobuf/empty.proto";
-
+import "validate/validate.proto";
 
 service User {
   rpc Create(UserCreateRequest) returns (google.protobuf.Empty) {}
 }
 
 message UserCreateRequest {
-  string name = 1;
+  string name = 1 [(validate.rules).string = {min_len: 1, max_len: 20}];
 }

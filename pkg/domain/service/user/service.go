@@ -26,19 +26,18 @@ func New(userRepository repository.UserRepository) Service {
 	}
 }
 
-func (s *service) ValidateUserName(ctx context.Context, tx database.Tx, name string) error {
+func (s *service) ValidateUserName(ctx context.Context, _ database.Tx, name string) error {
 	// 文字列のバリデーション
 	if utf8.RuneCountInString(name) > entity.UserNameMaxLen || utf8.RuneCountInString(name) < entity.UserNameMinLen {
 		return merrors.Newf(merrors.InvalidArgument, "user name len should be %d~%d", entity.UserNameMinLen, entity.UserNameMaxLen)
 	}
 	// 重複確認
-	users, err := s.userRepository.SelectByName(ctx, tx, name)
+	users, err := s.userRepository.SelectByName(ctx, name)
 	if err != nil {
 		return merrors.Stack(err)
 	}
 	if len(users) != 0 {
 		return merrors.Newf(merrors.InvalidArgument, "user is already exist. name: %s", name)
 	}
-
 	return nil
 }

@@ -1,19 +1,12 @@
 version: "3"
 services:
   app:
-    container_name: go
+    container_name: api
     build: .
-    environment:
-      - ENV
-      - PORT
-      - MYSQL_USER
-      - MYSQL_PASSWORD
-      - MYSQL_DATABASE
-      - MYSQL_ADDR
     volumes:
       - ./:/go/src/github.com/karamaru-alpha/melt
-    restart: always
-    tty: true
+    env_file:
+      - .env
     ports:
       - "8080:8080"
     depends_on:
@@ -23,11 +16,7 @@ services:
     container_name: mysql
     platform: linux/x86_64 # M1対応
     image: mysql:8.0
-    environment:
-      - MYSQL_ROOT_PASSWORD
-      - MYSQL_DATABASE
-      - MYSQL_USER
-      - MYSQL_PASSWORD
-    restart: always
+    env_file:
+      - .env
     ports:
       - "3306:3306"
