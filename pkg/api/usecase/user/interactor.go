@@ -8,7 +8,6 @@ import (
 	"github.com/karamaru-alpha/melt/pkg/domain/database"
 	"github.com/karamaru-alpha/melt/pkg/domain/entity"
 	"github.com/karamaru-alpha/melt/pkg/domain/repository"
-	"github.com/karamaru-alpha/melt/pkg/domain/service/user"
 	"github.com/karamaru-alpha/melt/pkg/merrors"
 	"github.com/karamaru-alpha/melt/pkg/util"
 )
@@ -18,27 +17,21 @@ type Interactor interface {
 }
 
 type interactor struct {
-	userService    user.Service
-	userRepository repository.UserRepository
 	ulidGenerator  util.ULIDGenerator
+	userRepository repository.UserRepository
 	txManager      database.TxManager
 }
 
-func New(userService user.Service, userRepository repository.UserRepository, ulidGenerator util.ULIDGenerator, txManager database.TxManager) Interactor {
+func New(ulidGenerator util.ULIDGenerator, userRepository repository.UserRepository, txManager database.TxManager) Interactor {
 	return &interactor{
-		userService:    userService,
-		userRepository: userRepository,
-		ulidGenerator:  ulidGenerator,
-		txManager:      txManager,
+		ulidGenerator,
+		userRepository,
+		txManager,
 	}
 }
 
 func (i *interactor) Create(ctx context.Context, name string) error {
 	if err := i.txManager.Transaction(ctx, func(ctx context.Context, tx database.Tx) error {
-		// 名前のバリデーション
-		if err := i.userService.ValidateUserName(ctx, tx, name); err != nil {
-			return merrors.Stack(err)
-		}
 		// ID生成
 		id, err := i.ulidGenerator.Generate()
 		if err != nil {

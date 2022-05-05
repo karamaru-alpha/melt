@@ -7,10 +7,9 @@
 package user
 
 import (
-	user3 "github.com/karamaru-alpha/melt/pkg/api/handler/user"
-	user2 "github.com/karamaru-alpha/melt/pkg/api/usecase/user"
+	user2 "github.com/karamaru-alpha/melt/pkg/api/handler/user"
+	"github.com/karamaru-alpha/melt/pkg/api/usecase/user"
 	"github.com/karamaru-alpha/melt/pkg/domain/proto/api"
-	"github.com/karamaru-alpha/melt/pkg/domain/service/user"
 	"github.com/karamaru-alpha/melt/pkg/infra/mysql"
 	"github.com/karamaru-alpha/melt/pkg/infra/mysql/repository"
 	"github.com/karamaru-alpha/melt/pkg/util"
@@ -19,12 +18,11 @@ import (
 // Injectors from wire.go:
 
 func DI() proto.UserServer {
+	ulidGenerator := util.NewUILDGenerator()
 	db := mysql.New()
 	userRepository := repository.NewUserRepository(db)
-	service := user.New(userRepository)
-	ulidGenerator := util.NewUILDGenerator()
 	txManager := mysql.NewDBTxManager(db)
-	interactor := user2.New(service, userRepository, ulidGenerator, txManager)
-	userServer := user3.New(interactor)
+	interactor := user.New(ulidGenerator, userRepository, txManager)
+	userServer := user2.New(interactor)
 	return userServer
 }
