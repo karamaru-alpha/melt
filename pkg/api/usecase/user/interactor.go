@@ -4,6 +4,9 @@ package user
 
 import (
 	"context"
+	"time"
+
+	"github.com/dgrijalva/jwt-go"
 
 	"github.com/karamaru-alpha/melt/pkg/domain/database"
 	"github.com/karamaru-alpha/melt/pkg/domain/entity"
@@ -13,7 +16,7 @@ import (
 )
 
 type Interactor interface {
-	Create(ctx context.Context, name string) error
+	Create(ctx context.Context, name string) (token string, err error)
 }
 
 type interactor struct {
@@ -30,23 +33,33 @@ func New(ulidGenerator util.ULIDGenerator, userRepository repository.UserReposit
 	}
 }
 
-func (i *interactor) Create(ctx context.Context, name string) error {
+func (i *interactor) Create(ctx context.Context, name string) (string, error) {
+	var token string
 	if err := i.txManager.Transaction(ctx, func(ctx context.Context, tx database.Tx) error {
-		// ID生成
-		id, err := i.ulidGenerator.Generate()
+		// User作成
+		userID, err := i.ulidGenerator.Generate()
 		if err != nil {
 			return merrors.Stack(err)
 		}
-		// User作成
 		if err := i.userRepository.Insert(ctx, tx, &entity.User{
-			ID:   id,
+			ID:   userID,
 			Name: name,
 		}); err != nil {
 			return merrors.Stack(err)
 		}
+		// JWT生成
+		token, err = jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+			"user_id": userID,
+			"exp":     time.Now().Add(time.Hour * 24).Unix(),
+		}).SignedString([]byte("secret"))
+		if err != nil {
+			return merrors.Stack(err)
+		}
+
 		return nil
 	}); err != nil {
-		return merrors.Stack(err)
+		return "", merrors.Stack(err)
 	}
-	return nil
+
+	return token, nil
 }

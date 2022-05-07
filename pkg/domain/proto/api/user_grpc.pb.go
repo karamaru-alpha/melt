@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.19.4
-// source: proto/api/user.proto
+// source: api/user.proto
 
 package proto
 
@@ -11,7 +11,6 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -23,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserClient interface {
-	Create(ctx context.Context, in *UserCreateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	Create(ctx context.Context, in *UserCreateRequest, opts ...grpc.CallOption) (*UserCreateResponse, error)
 }
 
 type userClient struct {
@@ -34,8 +33,8 @@ func NewUserClient(cc grpc.ClientConnInterface) UserClient {
 	return &userClient{cc}
 }
 
-func (c *userClient) Create(ctx context.Context, in *UserCreateRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
-	out := new(emptypb.Empty)
+func (c *userClient) Create(ctx context.Context, in *UserCreateRequest, opts ...grpc.CallOption) (*UserCreateResponse, error) {
+	out := new(UserCreateResponse)
 	err := c.cc.Invoke(ctx, "/api.User/Create", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -47,14 +46,14 @@ func (c *userClient) Create(ctx context.Context, in *UserCreateRequest, opts ...
 // All implementations should embed UnimplementedUserServer
 // for forward compatibility
 type UserServer interface {
-	Create(context.Context, *UserCreateRequest) (*emptypb.Empty, error)
+	Create(context.Context, *UserCreateRequest) (*UserCreateResponse, error)
 }
 
 // UnimplementedUserServer should be embedded to have forward compatible implementations.
 type UnimplementedUserServer struct {
 }
 
-func (UnimplementedUserServer) Create(context.Context, *UserCreateRequest) (*emptypb.Empty, error) {
+func (UnimplementedUserServer) Create(context.Context, *UserCreateRequest) (*UserCreateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
 }
 
@@ -100,5 +99,5 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/api/user.proto",
+	Metadata: "api/user.proto",
 }

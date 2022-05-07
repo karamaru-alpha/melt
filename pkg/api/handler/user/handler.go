@@ -3,9 +3,6 @@ package user
 import (
 	"context"
 
-	"github.com/golang/protobuf/ptypes/empty"
-	"google.golang.org/protobuf/types/known/emptypb"
-
 	"github.com/karamaru-alpha/melt/pkg/api/usecase/user"
 	pb "github.com/karamaru-alpha/melt/pkg/domain/proto/api"
 	"github.com/karamaru-alpha/melt/pkg/merrors"
@@ -21,9 +18,10 @@ func New(userInteractor user.Interactor) pb.UserServer {
 	}
 }
 
-func (h *handler) Create(ctx context.Context, req *pb.UserCreateRequest) (*emptypb.Empty, error) {
-	if err := h.userInteractor.Create(ctx, req.GetName()); err != nil {
+func (h *handler) Create(ctx context.Context, req *pb.UserCreateRequest) (*pb.UserCreateResponse, error) {
+	token, err := h.userInteractor.Create(ctx, req.GetName())
+	if err != nil {
 		return nil, merrors.Stack(err)
 	}
-	return &empty.Empty{}, nil
+	return &pb.UserCreateResponse{Token: token}, nil
 }

@@ -4,7 +4,7 @@
 definition_dir=./proto/api
 
 # serverコード自動生成Dir
-server_dir=./pkg/domain
+server_dir=./pkg/domain/proto
 
 # 自動生成
 protoc \

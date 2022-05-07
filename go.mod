@@ -3,6 +3,7 @@ module github.com/karamaru-alpha/melt
 go 1.17
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/envoyproxy/protoc-gen-validate v0.1.0
 	github.com/golang/mock v1.6.0
 	github.com/google/wire v0.5.0
