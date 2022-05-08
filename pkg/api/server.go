@@ -3,22 +3,22 @@ package api
 import (
 	"context"
 	"fmt"
+	"log"
 	"net"
 	"os"
 	"os/signal"
 	"syscall"
 
+	"github.com/grpc-ecosystem/go-grpc-middleware"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
-
-	"github.com/grpc-ecosystem/go-grpc-middleware"
 
 	"github.com/karamaru-alpha/melt/pkg/api/middleware/auth"
 	"github.com/karamaru-alpha/melt/pkg/api/middleware/merror"
 	"github.com/karamaru-alpha/melt/pkg/api/middleware/recovery"
 	"github.com/karamaru-alpha/melt/pkg/api/middleware/validator"
 	"github.com/karamaru-alpha/melt/pkg/api/registry"
-	"github.com/karamaru-alpha/melt/pkg/logging/app"
+	"github.com/karamaru-alpha/melt/pkg/merrors"
 )
 
 type Config struct {
@@ -59,46 +59,41 @@ func NewServer(c *Config) *Server {
 }
 
 func (s *Server) ServeAndWait() {
-	logger := app.GetLogger()
 	ctx := context.Background()
-	lis, err := s.listen(ctx)
+	lis, err := s.listen()
 	if err != nil {
-		logger.Error(ctx, fmt.Sprintf("failed to listen: %v", err))
-		return
+		log.Fatalf("failed to listen: %v\n", err)
 	}
 
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 	go func() {
-		s.serve(ctx, lis)
+		s.serve(lis)
 		cancel()
 	}()
-	defer logger.Info(ctx, "Shutdown...")
+	defer log.Println("Shutdown...")
 
 	signalCh := make(chan os.Signal, 1)
 	signal.Notify(signalCh, syscall.SIGTERM, syscall.SIGINT)
 	select {
 	case <-ctx.Done():
 	case sig := <-signalCh:
-		logger.Info(ctx, fmt.Sprintf("Received signal. %v", sig))
+		log.Printf("Received signal. %v\n", sig)
 		s.server.GracefulStop()
 	}
 }
 
-func (s *Server) listen(ctx context.Context) (net.Listener, error) {
-	logger := app.GetLogger()
+func (s *Server) listen() (net.Listener, error) {
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%s", s.config.Port))
 	if err != nil {
-		logger.Error(ctx, err.Error())
-		return nil, err
+		return nil, merrors.Stack(err)
 	}
 	return lis, nil
 }
 
-func (s *Server) serve(ctx context.Context, lis net.Listener) {
-	logger := app.GetLogger()
-	logger.Info(ctx, fmt.Sprintf("grpc server started on :%s", s.config.Port))
+func (s *Server) serve(lis net.Listener) {
+	log.Printf("grpc server started on :%s", s.config.Port)
 	if err := s.server.Serve(lis); err != nil {
-		logger.Error(ctx, "failed to serve")
+		log.Fatalf(err.Error())
 	}
 }
