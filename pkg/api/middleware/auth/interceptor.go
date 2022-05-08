@@ -1,4 +1,4 @@
-package middleware
+package auth
 
 import (
 	"context"
@@ -13,7 +13,11 @@ import (
 
 var skipAuthMethods = []string{"/api.Auth/Signup", "/api.Auth/RefreshToken"}
 
-func AuthFunc(ctx context.Context) (context.Context, error) {
+func UnaryServerInterceptor() grpc.UnaryServerInterceptor {
+	return grpc_auth.UnaryServerInterceptor(authFunc)
+}
+
+func authFunc(ctx context.Context) (context.Context, error) {
 	// 認証スキップするエンドポイントは飛ばす
 	method, _ := grpc.Method(ctx)
 	for _, v := range skipAuthMethods {

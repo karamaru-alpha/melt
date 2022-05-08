@@ -11,9 +11,10 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	"github.com/grpc-ecosystem/go-grpc-middleware/auth"
+	"github.com/grpc-ecosystem/go-grpc-middleware"
 
-	"github.com/karamaru-alpha/melt/pkg/api/middleware"
+	"github.com/karamaru-alpha/melt/pkg/api/middleware/auth"
+	"github.com/karamaru-alpha/melt/pkg/api/middleware/validator"
 	"github.com/karamaru-alpha/melt/pkg/api/registry"
 	"github.com/karamaru-alpha/melt/pkg/logging/app"
 )
@@ -39,7 +40,10 @@ func Serve(c *Config) *Server {
 func NewServer(c *Config) *Server {
 	server := grpc.NewServer(
 		grpc.UnaryInterceptor(
-			grpc_auth.UnaryServerInterceptor(middleware.AuthFunc),
+			grpc_middleware.ChainUnaryServer(
+				auth.UnaryServerInterceptor(),
+				validator.UnaryServerInterceptor(),
+			),
 		),
 	)
 	reflection.Register(server)
