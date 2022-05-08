@@ -4,6 +4,7 @@ package auth
 
 import (
 	"context"
+	"os"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -72,7 +73,7 @@ func (i *interactor) RefreshToken(ctx context.Context, refreshToken string) (acc
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, merrors.Newf(merrors.Unauthenticated, "token method is invalid")
 			}
-			return []byte("secret"), nil
+			return []byte(os.Getenv("TOKEN_SIGNED_STRING")), nil
 		})
 		if err != nil {
 			return merrors.Wrap(err, merrors.Unauthenticated)
@@ -99,7 +100,7 @@ func (i *interactor) generateAccessToken(userID string) (string, error) {
 	accessToken, err := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"sub": userID,
 		"exp": time.Now().Add(time.Hour * 24).Unix(),
-	}).SignedString([]byte("secret"))
+	}).SignedString([]byte(os.Getenv("TOKEN_SIGNED_STRING")))
 	if err != nil {
 		return "", merrors.Wrap(err, merrors.Internal)
 	}
@@ -109,7 +110,7 @@ func (i *interactor) generateAccessToken(userID string) (string, error) {
 func (i *interactor) generateRefreshToken(userID string) (string, error) {
 	refreshToken, err := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"sub": userID,
-	}).SignedString([]byte("secret"))
+	}).SignedString([]byte(os.Getenv("TOKEN_SIGNED_STRING")))
 	if err != nil {
 		return "", merrors.Wrap(err, merrors.Internal)
 	}

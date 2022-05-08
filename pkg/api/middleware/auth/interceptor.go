@@ -2,9 +2,10 @@ package auth
 
 import (
 	"context"
+	"os"
 
 	"github.com/dgrijalva/jwt-go"
-	grpc_auth "github.com/grpc-ecosystem/go-grpc-middleware/auth"
+	"github.com/grpc-ecosystem/go-grpc-middleware/auth"
 	"google.golang.org/grpc"
 
 	"github.com/karamaru-alpha/melt/pkg/mcontext"
@@ -35,7 +36,7 @@ func authFunc(ctx context.Context) (context.Context, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, merrors.Newf(merrors.Unauthenticated, "token method is invalid")
 		}
-		return []byte("secret"), nil
+		return []byte(os.Getenv("TOKEN_SIGNED_STRING")), nil
 	})
 	if err != nil {
 		return nil, merrors.Wrap(err, merrors.Unauthenticated)
