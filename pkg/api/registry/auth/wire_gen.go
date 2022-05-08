@@ -4,11 +4,11 @@
 //go:build !wireinject
 // +build !wireinject
 
-package user
+package auth
 
 import (
-	user2 "github.com/karamaru-alpha/melt/pkg/api/handler/user"
-	"github.com/karamaru-alpha/melt/pkg/api/usecase/user"
+	auth2 "github.com/karamaru-alpha/melt/pkg/api/handler/auth"
+	"github.com/karamaru-alpha/melt/pkg/api/usecase/auth"
 	"github.com/karamaru-alpha/melt/pkg/domain/proto/api"
 	"github.com/karamaru-alpha/melt/pkg/infra/mysql"
 	"github.com/karamaru-alpha/melt/pkg/infra/mysql/repository"
@@ -17,12 +17,12 @@ import (
 
 // Injectors from wire.go:
 
-func DI() proto.UserServer {
+func DI() api.AuthServer {
 	ulidGenerator := util.NewUILDGenerator()
 	db := mysql.New()
 	userRepository := repository.NewUserRepository(db)
 	txManager := mysql.NewDBTxManager(db)
-	interactor := user.New(ulidGenerator, userRepository, txManager)
-	userServer := user2.New(interactor)
-	return userServer
+	interactor := auth.New(ulidGenerator, userRepository, txManager)
+	authServer := auth2.New(interactor)
+	return authServer
 }

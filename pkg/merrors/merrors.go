@@ -51,11 +51,11 @@ var (
 		GRPCStatusCode: codes.Internal,
 	}
 	// Unauthenticated 認証必要
-	//Unauthenticated = ErrorPattern{
-	//	ErrorCode:      enum.ErrorCodeUnauthenticated,
-	//	HTTPStatusCode: http.StatusUnauthorized,
-	//	GRPCStatusCode: codes.Unauthenticated,
-	//}
+	Unauthenticated = ErrorPattern{
+		ErrorCode:      enum.ErrorCodeUnauthenticated,
+		HTTPStatusCode: http.StatusUnauthorized,
+		GRPCStatusCode: codes.Unauthenticated,
+	}
 	// PermissionDenied アクセス拒否
 	//PermissionDenied = ErrorPattern{
 	//	ErrorCode:      enum.ErrorCodePermissionDenied,
