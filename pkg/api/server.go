@@ -14,6 +14,7 @@ import (
 	"github.com/grpc-ecosystem/go-grpc-middleware"
 
 	"github.com/karamaru-alpha/melt/pkg/api/middleware/auth"
+	"github.com/karamaru-alpha/melt/pkg/api/middleware/recovery"
 	"github.com/karamaru-alpha/melt/pkg/api/middleware/validator"
 	"github.com/karamaru-alpha/melt/pkg/api/registry"
 	"github.com/karamaru-alpha/melt/pkg/logging/app"
@@ -42,6 +43,7 @@ func NewServer(c *Config) *Server {
 		grpc.UnaryInterceptor(
 			grpc_middleware.ChainUnaryServer(
 				auth.UnaryServerInterceptor(),
+				recovery.UnaryServerInterceptor(),
 				validator.UnaryServerInterceptor(),
 			),
 		),
