@@ -1,0 +1,22 @@
+version: "3"
+services:
+  app:
+    container_name: api
+    build: .
+    volumes:
+      - ./:/go/src/github.com/karamaru-alpha/melt
+    env_file:
+      - .env
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+
+  mysql:
+    container_name: mysql
+    platform: linux/x86_64 # M1対応
+    image: mysql:8.0
+    env_file:
+      - .env
+    ports:
+      - "3306:3306"

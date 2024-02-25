@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package api;
+option go_package = "github.com/karamaru-alpha/melt/pkg/domain/proto/api";
+
+import "google/protobuf/empty.proto";
+import "validate/validate.proto";
+import "model/user.proto";
+
+service Auth {
+  rpc Signup(AuthSignupRequest) returns (AuthSignupResponse) {}
+  rpc RefreshToken(AuthRefreshTokenRequest) returns (AuthRefreshTokenResponse) {}
+  rpc Get(google.protobuf.Empty) returns (model.User) {}
+}
+
+message AuthSignupRequest {
+  string name = 1 [(validate.rules).string = {min_len: 1, max_len: 20}];
+}
+
+message AuthSignupResponse {
+  string accessToken = 1;
+  string refreshToken = 2;
+}
+
+message AuthRefreshTokenRequest {
+  string refreshToken = 1 [(validate.rules).string = {min_len: 1}];
+
+}
+
+message AuthRefreshTokenResponse {
+  string accessToken = 1;
+}
